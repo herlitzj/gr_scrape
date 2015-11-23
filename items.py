@@ -10,19 +10,23 @@ import scrapy
 
 class RatingsItem(scrapy.Item):
     book_id = scrapy.Field()
-    book_isbn = scrapy.Field()
+    isbn10 = scrapy.Field()
     user_name = scrapy.Field()
     user_id = scrapy.Field()
     rating = scrapy.Field()
 
 class BooksItem(scrapy.Item):
     book_id = scrapy.Field()
+    isbn10 = scrapy.Field()
+    isbn13 = scrapy.Field()
     title = scrapy.Field()
     publisher = scrapy.Field()
-    pub_date = scrapy.Field()
+    pub_year = scrapy.Field()
     language = scrapy.Field()
     description = scrapy.Field()
     img_url = scrapy.Field()
+    genre_list = scrapy.Field()
+    authors = scrapy.Field()
 
 class UserItem(scrapy.Item):
     user_id = scrapy.Field()

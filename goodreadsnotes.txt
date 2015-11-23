@@ -1,0 +1,45 @@
+book carousel href extraction
+for href in response.css("div.bookCarousel > div > ul > li a::attr('href')"):
+    url = response.urljoin(href.extract())
+    yield scrapy.Request(url, callback=self.parse_dir_contents)
+
+
+user and rating extraction
+for sel in response.xpath('//div[@id="bookReviews"]//div[@class="left bodycol"]'):
+    username = sel.xpath('div/a[2]/text()').extract()[0]
+    rating = sel.xpath('div/a[3]/text()').extract()[0][0]
+    user_id = sel.xpath('div/a[2]').re('/([0-9]\w+)')
+
+
+user href extraction
+for href in response.css("div.left.bodycol > div > a.user::attr('href')"):
+    url = response.urljoin(href.extract())
+    yield scrapy.Request(url, callback=self.parse_dir_contents)
+
+book detail extraction
+book description: response.xpath('//div[@id="metacol"]').xpath('//div[@id="description"]/span/text()').extract()
+isbn10: response.xpath('//div[@id="bookDataBox"]/div/div/text()').re('[0-9]{10}')[0]
+isbn13: response.xpath('//div[@id="bookDataBox"]/div/div/span/span/text()').re('[0-9]{13}')[0]
+book_id: response.xpath('//img[@id="coverImage"]').re('/([0-9]+)')[1]
+book cover image url: response.css('img#coverImage::attr("src")').extract()
+publication date: response.xpath('//div[@id="details"]/div[2]/text()').re('([a-zA-Z]+ [0-9]{1,}[a-z]{2} [0-9]{4})')
+publication year: response.xpath('//div[@id="details"]/div[2]/text()').re('([0-9]{4})')
+publisher: response.xpath('//div[@id="details"]/div[2]/text()').re('[a-z]{2} ([a-zA-Z ]+)')
+genres: response.xpath('//div[@class="left"]/a[@class="actionLinkLite"]/text()').extract()
+unique set of genres: ",".join(set(response.xpath('//div[@class="left"]/a[@class="actionLinkLite"]/text()').extract()))
+authors: ",".join(set(response.xpath('//span[@itemprop="name"]/text()').extract()))
+title: response.xpath("//h1[@id='bookTitle']/text()").extract()
+
+user detail extraction
+//NEED TO BE SIGNED IN TO SEE USER DETAILS//
+
+
+CRAWLERS:
+book crawler
+title, img url, id/isbn, publisher, publication date, language, description
+
+ratings crawler
+book id/isbn, user id, rating
+
+user crawler
+user id, user info
