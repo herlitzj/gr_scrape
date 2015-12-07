@@ -10,6 +10,12 @@ for sel in response.xpath('//div[@id="bookReviews"]//div[@class="left bodycol"]'
     rating = sel.xpath('div/a[3]/text()').extract()[0][0]
     user_id = sel.xpath('div/a[2]').re('/([0-9]\w+)')
 
+alt user and rating extraction
+username: response.xpath('//div[@class="left bodycol"]/div/a[@class="user"]/text()').extract()
+rating: response.xpath('//div[@class="left bodycol"]/div/a[contains(@class, "static")]/text()').re('([0-5]{1})')
+user_id: response.xpath('//div[@class="left bodycol"]/div/a[@class="user"]').re('/([0-9]+)')
+book_id: response.xpath('//img[@id="coverImage"]').re('([0-9]\w+)')[1]
+
 
 user href extraction
 for href in response.css("div.left.bodycol > div > a.user::attr('href')"):

@@ -10,10 +10,10 @@ import scrapy
 
 class RatingsItem(scrapy.Item):
     book_id = scrapy.Field()
-    isbn10 = scrapy.Field()
     user_name = scrapy.Field()
     user_id = scrapy.Field()
     rating = scrapy.Field()
+    isbn10 = scrapy.Field()
 
 class BooksItem(scrapy.Item):
     book_id = scrapy.Field()
